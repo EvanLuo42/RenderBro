@@ -1,0 +1,48 @@
+name: Release RenderBro.CLI
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+            exe: .exe
+          - os: ubuntu-latest
+            rid: linux-x64
+            exe: ""
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Publish RenderBro.CLI
+      run: |
+        dotnet publish RenderBro.CLI/RenderBro.CLI.csproj \
+          -c Release \
+          -r ${{ matrix.rid }} \
+          --self-contained true \
+          -p:PublishSingleFile=true \
+          -p:PublishTrimmed=true \
+          -o publish
+
+    - name: Rename binary
+      run: |
+        mkdir dist
+        cp publish/RenderBro.CLI${{ matrix.exe }} \
+           dist/RenderBro-${{ matrix.rid }}${{ matrix.exe }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: RenderBro-${{ matrix.rid }}
+        path: dist/*
