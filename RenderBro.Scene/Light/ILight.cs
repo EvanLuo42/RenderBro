@@ -24,10 +24,4 @@ public interface ILight
     /// Color temperature, in degrees Kelvin, representing the white point.
     /// </summary>
     float ColorTemperature { get; }
-
-    /// <summary>
-    /// Emits the light into the provided SoA builder.
-    /// </summary>
-    /// <param name="builder">Light SoA builder</param>
-    void Emit(ref LightSoABuilder builder);
 }

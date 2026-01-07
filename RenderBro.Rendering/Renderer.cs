@@ -12,5 +12,5 @@ public class Renderer(RenderSettings settings)
     private void RunOneIteration()
     {
         
-    } 
+    }
 }

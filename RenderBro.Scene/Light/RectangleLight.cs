@@ -15,9 +15,4 @@ public class RectangleLight(float intensity, Color3 color, float exposure, float
     public float Width { get; } = width;
 
     public float Height { get; } = height;
-
-    public void Emit(ref LightSoABuilder builder)
-    {
-        builder.AddRectangleLight(this);
-    }
 }
